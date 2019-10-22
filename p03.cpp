@@ -101,8 +101,77 @@ using namespace std::chrono;
 			 duration<double, std::milli> time_span = t2 - t1;
 			 PrintResult(arr1, o2, o4, size, time_span);
 			 
-			 t1 = high_resolution_clock
-
+			 t1 = high_resolution_clock::now();
+			 MyImprovedSort(arr2, size);
+			 t2 = high_resolution_clock::now();
+			 time_span = t2 - t1;
+			 PrintResult(arr2,o3, o4, size, time_span);
+		 }
+		 
+		 delete [] arr1;
+		 delete [] arr2;
+		 arr1 = NULL;		//make sure this memory isn't used
+		 arr2 = NULL;		//make sure this memory isn't used
+	 }
+ }
+ 
+ int main (int argc, char* argv[])
+ {
+	 try{ srand(time(NULL));	// seed for generating random numbers
+	 char ofn1 [255], ofn2[255], ofn3[255], ofn4[255];
+	 switch (argc) {
+		 case 1:
+			cout << endl << "Enter the name of output file 1 for unsorted array: ";
+			cin >> ofn1;
+		 case 2:
+			cout << endl << "Enter the name of output file 2 for sorted array using algorithm 1: ";
+			cin >> ofn2;
+		 case 3:
+			cout << endl << "Enter the name of output file 3 for sorted array using algorithm 2: ";
+			cin >> ofn3;
+		 case 4:
+			cout << endl << "Enter the name of output file 4 for time used: ";
+			cin >ofn4;
+			break;
+		 case5: break;
+		 default: throw CommandLineException(4, argc - 1);
+	 }
+	 switch (argc) {
+		 case 5: strcpy(ofn4, argv[4]);
+		 case 4: strcpy(ofn3, argv[3]);
+		 case 3: strcpy(ofn2, argv[2]);
+		 case 2: strcpy(ofn1, argv[1]);
+		 case 1: break;
+		 default: throw CommandLineException(4, argc - 1);
+	 }
+	 
+	 ofstream o1(ofn1);
+	 ofstream o2(ofn2);
+	 ofstream o3(ofn3);
+	 ofstream o4(ofn4);
+	 if (!o1)
+		 throw FileException(ofn1);
+	 if (!o2)
+		 throw FileException(ofn2);
+	 if (!o3)
+		 throw FileException(ofn3);
+	 if (!o4)
+		 throw FileException(ofn4);
+	 
+	 P03Manager(o1, o2, o3, o4);
+	 o1.close();
+	 o2.close();
+	 o3.close();
+	 o4.close();
+	 }
+	 catch(...)
+	 {
+		 cout << "Program ended" << endl;
+		 exit (EXIT_FAILURE);
+	 }
+	 return 0;
+ }
+ 
   
   
   
